@@ -2,10 +2,9 @@ package pl.tmobile.dn.tatector;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 public class PlikObsluga
@@ -66,7 +65,10 @@ public class PlikObsluga
 			//analizuje kolumny
 			for (String komorka : list)
 			{
-				if(wynik.size()==j) wynik.add(j, String.valueOf(komorka.length()));
+				if(wynik.size()==j) 
+				{
+					wynik.add(j, String.valueOf(komorka.length()));
+				}
 				else
 				{
 					if(Integer.valueOf(komorka.length())>Integer.valueOf(wynik.get(j)))
@@ -81,6 +83,52 @@ public class PlikObsluga
 		}
 		
 		return wynik;
+	}
+	
+	/**
+	 * Okreslam typ tekstu w kolejnosci: date, deciaml, integer, char(X) 
+	 * @param tekst
+	 * @return typ zmiennej
+	 */
+	public String okreslTyp(String tekst, String formatDate)
+	{
+		String wynik="unknown";
+		
+		//czy data
+		try
+		{
+			new SimpleDateFormat(formatDate).parse(tekst);
+			return "date";
+		}
+		catch (Exception e) 
+		{
+			// TODO: handle exception
+		}
+
+		//czy int
+		try
+		{
+			Integer.valueOf(tekst);
+			return "int";
+		}
+		catch (Exception e) 
+		{
+			// TODO: handle exception
+		}
+		
+		//czy double
+		try
+		{
+			Double.valueOf(tekst.replace(",", "."));
+			return "double";
+		}
+		catch (Exception e) 
+		{
+			// TODO: handle exception
+		}
+
+		//pozostal string
+		return "varchar("+tekst.length()+")";
 	}
 	
 }

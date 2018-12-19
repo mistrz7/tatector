@@ -4,9 +4,29 @@ public class Parametry
 {
 	private String sciezka;
 	private String delimiter;
+	private String formatDate;
 	private Integer skanowanychLini;
 	private Boolean tworzycDdl;
 	
+	
+	
+	/**
+	 * @param sciezka
+	 * @param delimiter
+	 * @param decimalSign
+	 * @param formatDate
+	 * @param skanowanychLini
+	 * @param tworzycDdl
+	 */
+	public Parametry()
+	{
+		super();
+		this.delimiter = ";";
+		this.formatDate = "yyyy/MM/dd";
+		this.skanowanychLini = 1000;
+		this.tworzycDdl = true;
+	}
+
 	/**
 	 * 
 	 * @param args
@@ -18,10 +38,6 @@ public class Parametry
 	public boolean utworzParametry(String[] args)
 	{
 		sciezka=args[0];
-		delimiter=args[1];
-		skanowanychLini=Integer.valueOf(args[2]);
-		tworzycDdl=Boolean.valueOf(args[3]);
-		
 		return true;
 	}
 
