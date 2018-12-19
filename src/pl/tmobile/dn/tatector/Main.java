@@ -1,5 +1,7 @@
 package pl.tmobile.dn.tatector;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 
 
@@ -9,7 +11,7 @@ import org.apache.log4j.Logger;
  * - sciezka do pliku csv
  * - delimiter
  * - ilosc analizowanych wierszy (niewymagane)
- * - czy twoerzyc ddl na podstawie pierwszego wiersza (niewymagane)
+ * - czy tworzyc ddl na podstawie pierwszego wiersza (niewymagane)
  */
 public class Main
 {
@@ -29,6 +31,15 @@ public class Main
 		logger.info("delimiter="+parametry.getDelimiter());
 		logger.info("ilosc skanowanych linii="+parametry.getSkanowanychLini());
 		logger.info("czy bedzie tworzony ddl="+parametry.getTworzycDdl());
+		
+		PlikObsluga plikObsluga=new PlikObsluga();
+		List<List<String>> plik=plikObsluga.wczytajPlik(parametry.getSciezka(), parametry.getDelimiter());
+		logger.info("wczytalem pliki, linii="+plik.size());
+		
+		logger.info("start analizy");
+		List<String> typyPol = plikObsluga.znajdzTypyPol(plik, parametry.getSkanowanychLini(), parametry.getTworzycDdl());
+		
+		logger.info("wynik="+typyPol);
 		
 		logger.info("koniec");
 	}
