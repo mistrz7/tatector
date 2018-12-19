@@ -45,13 +45,16 @@ public class PlikObsluga
 	 * @param plik
 	 * @param skanowanychLini
 	 * @param tworzycDdl
+	 * @param string 
 	 */
-	public List<String> znajdzTypyPol(List<List<String>> plik, Integer skanowanychLini, Boolean tworzycDdl)
+	public List<String> znajdzTypyPol(List<List<String>> plik, Integer skanowanychLini, Boolean tworzycDdl, String formatDate)
 	{
 		int i=0;
 		int j=0;
 		
 		List<String> wynik=new ArrayList<>();
+		String nowyTyp;
+		String staryTyp;
 		
 		//przekrec plik
 		for (List<String> list : plik)
@@ -65,21 +68,39 @@ public class PlikObsluga
 			//analizuje kolumny
 			for (String komorka : list)
 			{
+				nowyTyp=okreslTyp(komorka, formatDate);
+				
 				if(wynik.size()==j) 
 				{
-					wynik.add(j, String.valueOf(komorka.length()));
+					wynik.add(j, nowyTyp);
 				}
 				else
 				{
-					if(Integer.valueOf(komorka.length())>Integer.valueOf(wynik.get(j)))
+					staryTyp=wynik.get(j);
+					
+					//nie rownaja sie wiec trzeba podmienic
+					if(!nowyTyp.equals(staryTyp))
 					{
-						wynik.set(j, String.valueOf(komorka.length()));
+						//jesli by int, double lub date a teraz jest char to char
+						if(nowyTyp.startsWith("varchar") && staryTyp.equals("date") ||  staryTyp.equals("int") ||  staryTyp.equals("double"))
+						{
+							wynik.set(j, nowyTyp);
+						}
+						
+						//jesli by int a teraz double to double
+						if(nowyTyp.equals("double") && staryTyp.equals("int"))
+						{
+							wynik.set(j, "double");
+						}
+						if(nowyTyp.startsWith("varchar") && staryTyp.startsWith("varchar") 
+								&& Integer.valueOf(nowyTyp.substring(8, nowyTyp.length()-1))>Integer.valueOf(staryTyp.substring(8, staryTyp.length()-1)))
+						{
+							wynik.set(j, nowyTyp);
+						}
 					}
 				}
 				j++;
 			}
-			
-			System.out.println(list);
 		}
 		
 		return wynik;
@@ -97,8 +118,11 @@ public class PlikObsluga
 		//czy data
 		try
 		{
-			new SimpleDateFormat(formatDate).parse(tekst);
-			return "date";
+			if(tekst.trim().length()==formatDate.trim().length())
+			{
+				new SimpleDateFormat(formatDate).parse(tekst);
+				return "date";
+			}
 		}
 		catch (Exception e) 
 		{
@@ -128,7 +152,29 @@ public class PlikObsluga
 		}
 
 		//pozostal string
-		return "varchar("+tekst.length()+")";
+		if(tekst.length()>0)
+		{
+			return "varchar("+tekst.length()+")";
+		}
+		else
+		{
+			return "varchar(1)";
+		}
+	}
+
+	public void pokazWynik(List<List<String>> plik, List<String> typyPol, Boolean tworzycDdl)
+	{
+		int i=0;
+		for (String string : typyPol)
+		{
+			if(tworzycDdl)
+			{
+				System.out.print(plik.get(0).get(i).toLowerCase()+" ");
+			}
+			System.out.println(string+", ");
+			
+			i++;
+		}
 	}
 	
 }

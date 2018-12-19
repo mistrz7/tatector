@@ -30,6 +30,7 @@ public class PlikObslugaTest
 		assertEquals("date", plikObsluga.okreslTyp("2018/01/01", "yyyy/MM/dd"));
 	}
 	
+	
 	@Test
 	public void zmiennnoPrzecinkowa()
 	{
@@ -46,6 +47,12 @@ public class PlikObslugaTest
 	public void zmiennnoPrzecinkowa3()
 	{
 		assertEquals("double", plikObsluga.okreslTyp("12,1214", "yyyy/MM/dd"));
+	}
+	
+	@Test
+	public void zmiennnoPrzecinkowa4()
+	{
+		assertEquals("double", plikObsluga.okreslTyp("0.53", "yyyy/MM/dd"));
 	}
 
 	@Test
@@ -70,5 +77,11 @@ public class PlikObslugaTest
 	public void tekst2()
 	{
 		assertEquals("varchar(32)", plikObsluga.okreslTyp("konstantynopolitańczykowianeczka", "yyyy/MM/dd"));
+	}
+	
+	@Test
+	public void tekst3()
+	{
+		assertEquals("varchar(23)", plikObsluga.okreslTyp("2018/12/01 - 2018/12/31", "yyyy/MM/dd"));
 	}
 }

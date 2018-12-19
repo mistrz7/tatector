@@ -30,16 +30,16 @@ public class Main
 		logger.info("plik="+parametry.getSciezka());
 		logger.info("delimiter="+parametry.getDelimiter());
 		logger.info("ilosc skanowanych linii="+parametry.getSkanowanychLini());
-		logger.info("czy bedzie tworzony ddl="+parametry.getTworzycDdl());
+		logger.info("czy bedzie tworzony ddl="+parametry.getNazwyWPierwszejLinii());
 		
 		PlikObsluga plikObsluga=new PlikObsluga();
 		List<List<String>> plik=plikObsluga.wczytajPlik(parametry.getSciezka(), parametry.getDelimiter());
 		logger.info("wczytalem pliki, linii="+plik.size());
 		
 		logger.info("start analizy");
-		List<String> typyPol = plikObsluga.znajdzTypyPol(plik, parametry.getSkanowanychLini(), parametry.getTworzycDdl());
-		
-		logger.info("wynik="+typyPol);
+		List<String> typyPol = plikObsluga.znajdzTypyPol(plik, parametry.getSkanowanychLini(), parametry.getNazwyWPierwszejLinii(), parametry.getFormatDate());
+
+		plikObsluga.pokazWynik(plik, typyPol, parametry.getNazwyWPierwszejLinii());
 		
 		logger.info("koniec");
 	}

@@ -6,25 +6,24 @@ public class Parametry
 	private String delimiter;
 	private String formatDate;
 	private Integer skanowanychLini;
-	private Boolean tworzycDdl;
+	private Boolean nazwyWPierwszejLinii;
 	
 	
 	
 	/**
 	 * @param sciezka
 	 * @param delimiter
-	 * @param decimalSign
 	 * @param formatDate
 	 * @param skanowanychLini
-	 * @param tworzycDdl
+	 * @param nazwyWPierwszejLinii
 	 */
 	public Parametry()
 	{
 		super();
 		this.delimiter = ";";
-		this.formatDate = "yyyy/MM/dd";
+		this.formatDate = "yyyy-MM-dd";
 		this.skanowanychLini = 1000;
-		this.tworzycDdl = true;
+		this.nazwyWPierwszejLinii = true;
 	}
 
 	/**
@@ -71,13 +70,23 @@ public class Parametry
 		this.skanowanychLini = skanowanychLini;
 	}
 
-	public Boolean getTworzycDdl()
+	public Boolean getNazwyWPierwszejLinii()
 	{
-		return tworzycDdl;
+		return nazwyWPierwszejLinii;
 	}
 
-	public void setTworzycDdl(Boolean tworzycDdl)
+	public void setNazwyWPierwszejLinii(Boolean nazwyWPierwszejLinii)
 	{
-		this.tworzycDdl = tworzycDdl;
+		this.nazwyWPierwszejLinii = nazwyWPierwszejLinii;
+	}
+
+	public String getFormatDate()
+	{
+		return formatDate;
+	}
+
+	public void setFormatDate(String formatDate)
+	{
+		this.formatDate = formatDate;
 	}
 }
